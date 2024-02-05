@@ -1,0 +1,113 @@
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
+
+// Semboller ve ödeme tablosu
+var symbols = []string{"🍒", "🍊", "🍋", "🍉", "🍇", "💎"}
+var payTable = map[string]int{
+	"🍒": 1,
+	"🍊": 2,
+	"🍋": 3,
+	"🍉": 4,
+	"🍇": 5,
+	"💎": 10,
+}
+
+// Oyuncunun bakiyesi
+var balance = 100
+
+// Slot makinesi çevirme fonksiyonu
+func spin() [][]string {
+	rand.Seed(time.Now().UnixNano())
+	board := make([][]string, 3)
+	for i := range board {
+		board[i] = make([]string, 3)
+		for j := range board[i] {
+			board[i][j] = symbols[rand.Intn(len(symbols))]
+		}
+	}
+	return board
+}
+
+// Kazancı hesaplayan fonksiyon
+func calculateWin(board [][]string, bet int) int {
+	winAmount := 0
+
+	// Satır kazançları
+	for i := 0; i < 3; i++ {
+		count := make(map[string]int)
+		for j := 0; j < 3; j++ {
+			count[board[i][j]]++
+		}
+		for _, symbol := range symbols {
+			if count[symbol] >= 3 {
+				winAmount += payTable[symbol]
+			}
+		}
+	}
+
+	// Sütun kazançları
+	for j := 0; j < 3; j++ {
+		count := make(map[string]int)
+		for i := 0; i < 3; i++ {
+			count[board[i][j]]++
+		}
+		for _, symbol := range symbols {
+			if count[symbol] >= 3 {
+				winAmount += payTable[symbol]
+			}
+		}
+	}
+
+	return winAmount * bet
+}
+
+func main() {
+	fmt.Println("Slot Makinesine Hoş Geldiniz!")
+
+	fmt.Printf("Bakiyeniz: %v\n", balance)
+
+	// Bahis al
+	for i := 20; i < 101; i++ {
+		for balance > 10 {
+			var bet int = 10
+			if bet <= 0 || bet > balance {
+				fmt.Println("Geçersiz bahis miktarı. Lütfen tekrar deneyin.")
+				continue
+			}
+
+			// Slot makinesini çevir
+			board := spin()
+
+			// Sonuçları ekrana yazdır
+			for _, row := range board {
+				fmt.Println(row)
+			}
+
+			// Kazancı hesapla
+			winAmount := calculateWin(board, bet)
+
+			// Kazancı ekrana yazdır
+			if winAmount > 0 {
+				fmt.Printf("Tebrikler! Kazandınız: %d\n", winAmount)
+			} else {
+				fmt.Println("Maalesef kazanamadınız.")
+			}
+
+			// Bakiyeyi güncelle
+			balance += winAmount - bet
+
+			// Oyunu yeniden oynamak isteyip istemediğini sor
+			if balance <= 0 {
+				fmt.Println("Bakiyeniz tükendi. Oyunu bitirin.")
+				break
+			}
+			fmt.Printf("Bakiyeniz: %d\n", balance)
+
+		}
+	}
+}
