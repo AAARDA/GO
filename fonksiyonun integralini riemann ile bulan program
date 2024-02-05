@@ -1,0 +1,29 @@
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+var c float64
+var trape float64
+
+func f(x float64) float64 {
+	return (math.Pow(x, 2) + 4*x + 7)
+}
+func tra(a, b float64) float64 {
+
+	for ; a < b-1; a++ {
+		c = (f(a) + f(a+1)) / 2
+		fmt.Println(c)
+		c += c
+	}
+	return c
+}
+func main() {
+	a := 2.0
+	b := 4.0
+	trapenez := tra(a, b)
+	fmt.Println(trapenez)
+
+}
