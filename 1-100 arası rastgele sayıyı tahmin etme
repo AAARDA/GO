@@ -1,0 +1,51 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"math/rand"
+	"os"
+	"strconv"
+	"strings"
+	"time"
+)
+
+func main() {
+	a := numrand(1, 100)
+	for i := 0; i < 11; i++ {
+		if i == 10 {
+			fmt.Println("Deneme hakkınız bitti")
+			fmt.Println("Cevap %v'ydi",a)
+			break
+		}
+		fmt.Print("tahmininizi yazın")
+		not, _ := notsis()
+
+		if not == a {
+			fmt.Println("TEBRİKLER")
+		}
+		if not != a {
+			if i < 10 {
+				fmt.Println(9-i, "deneme hakkınız kaldı")
+			}
+		}
+
+	}
+
+}
+func notsis() (int, error) {
+
+	readr := bufio.NewReader(os.Stdin)
+	a, err := readr.ReadString('\n')
+	if err != nil {
+		fmt.Println(err)
+	}
+	a = strings.TrimSpace(a)
+	num, err := strconv.Atoi(a)
+	return num, nil
+}
+func numrand(min, max int) int {
+
+	rand.Seed(time.Now().Unix())
+	return rand.Intn(max-min) + min
+}
