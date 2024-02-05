@@ -1,0 +1,65 @@
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    vocab := map[string]string{
+        "access":      "permission, liberty, or ability to enter, approach, or pass to and from a place or to approach or communicate with a person or thing",
+        "accessory":   "an object or device that is not essential in itself but adds to the beauty, convenience, or effectiveness of something else",
+        "Achievement": "a result gained by effort",
+        "Adolescence": "The period of life when a child develops into an adult.",
+        "Afford":      "to manage to bear without serious detriment",
+        "Benefit":     "something that produces good or helpful results or effects",
+        "agitate":     "to make someone feel worried or angry",
+        "alternative": "A thing you can choose to do or have more than one possibilities",
+        "average":     " a single value (such as a mean, mode, or median) that summarizes or represents the general significance of a set of unequal values",
+        "Capacity":    "the maximum amount or number that can be contained or accommodated",
+        "complex":     "A whole made up of complicated or interrelated parts",
+        "Crime":       "An action or omission that is punishable by law.",
+        "cycle":       "a series of events that happen in a particular order, one following the other, and are often repeated.",
+    }
+    for i := 0; i < 1; {
+        var n int
+        var kelime, anlam string
+        fmt.Println("istediğiniz işlem numarasını giriniz\n 1-kelime ekleme \n 2-kelime düzeltme \n 3-kelime arama \n 4- sistemden çık")
+        fmt.Scan(&n)
+        if n == 1 {
+            fmt.Println("eklemek istediğiniz kelimeyi girin")
+            fmt.Scan(&kelime)
+            fmt.Println("anlamını giriniz")
+            fmt.Scan(&anlam)
+            vocab[kelime] = anlam
+        }
+        if n == 2 {
+            fmt.Println("düzeltmek istediğiniz kelimeyi girin")
+            fmt.Scan(&kelime)
+
+            if deger, varmi := vocab[kelime]; varmi {
+                fmt.Println("kelime başarıyla bulundu \n yeni kelimeyi giriniz")
+                fmt.Scan(&kelime)
+                fmt.Println("anlam:")
+                fmt.Scan(&deger)
+            } else {
+                fmt.Printf("aradığınız kelime bulunmamaktadır")
+            }
+        }
+        if n == 3 {
+            fmt.Println("aramak istediğiniz kelimeyi girin")
+            fmt.Scan(&kelime)
+            if deger, varmi := vocab[kelime]; varmi {
+                fmt.Print(kelime)
+                fmt.Print(":")
+                fmt.Println(deger)
+            } else {
+                fmt.Println("girdiğiniz kelime bulunmamaktadır")
+            }
+        }
+        if n == 4 {
+            i++
+            break
+        }
+        
+    }
+}
